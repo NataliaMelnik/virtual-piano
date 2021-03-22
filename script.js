@@ -68,3 +68,34 @@ buttonContainer.addEventListener('click', (event) => {
         }
     }
 });
+
+//Keyboard event handlers
+document.addEventListener('keydown', (event) => {
+    let keyboardKey = event.key.toUpperCase();
+    let note = keysMap.get(keyboardKey);
+    keys.forEach((item) => {
+        if (item.dataset.note === note) {
+            item.classList.add('piano-key-active');
+        }
+    })
+    playSound(note);
+});
+
+document.addEventListener('keyup', (event) => {
+    let keyboardKey = event.key.toUpperCase();
+    let note = keysMap.get(keyboardKey);
+    keys.forEach((item) => {
+        if (item.dataset.note === note) {
+            item.classList.remove('piano-key-active');
+        }
+    })
+});
+
+//Playing sound
+const playSound = (note)=> {
+    const audio = new Audio();
+    audio.src = `\\assets\\audio\\${note}.mp3`;
+    audio.loop = false;
+    audio.currentTime = 0;
+    audio.play();
+};
