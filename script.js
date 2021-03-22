@@ -91,6 +91,39 @@ document.addEventListener('keyup', (event) => {
     })
 });
 
+//Mouse handlers
+const startSound = (event) => {
+    playSound(event.target.dataset.note);
+    event.target.classList.add('piano-key-active');
+};
+
+const stopSound = (event) => {
+    event.target.classList.remove('piano-key-active');
+};
+
+const startCorrespondOver = (event) => {
+    if (event.target.classList.contains('piano-key')) {
+        event.target.classList.add('piano-key-active');
+        playSound(event.target.dataset.note);
+    }
+    keys.forEach((item) => {
+        item.addEventListener('mouseover', startSound);
+        item.addEventListener('mouseout', stopSound);
+    });
+};
+
+const stopCorrespondOver = () => {
+    keys.forEach((item) => {
+        item.classList.remove('piano-key-active');
+        item.removeEventListener('mouseover', startSound);
+        item.removeEventListener('mouseout', stopSound);
+    });
+};
+
+piano.addEventListener('mousedown', startCorrespondOver, false);
+
+piano.addEventListener('mouseup', stopCorrespondOver);
+
 //Playing sound
 const playSound = (note)=> {
     const audio = new Audio();
